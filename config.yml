@@ -1,0 +1,9 @@
+development:
+  password: shptka_195454908a34c12d5cf28f282f2ec027
+  theme_id: '162701803796'
+  store: rexipetsdevelopment.myshopify.com
+  ignore_files:
+    - config/settings_data.json
+    - /\.(txt|gif|bat)$/
+    - '*.liquid___jb_tmp___'
+    - '*.liquid___jb_old___'

@@ -1,0 +1,356 @@
+{{ 'custom-product-recommendations.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+    .color_text{
+    color: {{ section.settings.color_text }};
+    }
+
+    .product-recommendations__item .product-recommendations__image-tags:before{
+    background-color: {{ section.settings.background_product }}
+    }
+
+    .product-recommendations__button a {
+    background: {{ section.settings.btn_background }};
+    color: {{ section.settings.btn_color }};
+    border: 1px solid {{ section.settings.btn_background }};
+    transition: all 0.3s ease-in-out;
+    }
+
+    .custom-slider__pagination .swiper-pagination-bullet {
+    background-color: transparent;
+    border: 1px solid {{ section.settings.dots_border }};
+    }
+
+    .custom-slider__pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    background-color: {{ section.settings.dots_background_active }};
+    border: 1px solid{{ section.settings.dots_background_active }};
+    }
+
+    .product-recommendations__button a:hover {
+    background: {{ section.settings.btn_background_hover }};
+    color: {{ section.settings.btn_color_hover }};
+    border: 1px solid {{ section.settings.btn_background_hover }};
+    }
+
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+
+    @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    }
+{%- endstyle -%}
+
+{% if section.blocks.size != 0 %}
+    <div class="product-recommendations section-{{ section.id }}-padding">
+        <div class="container__repeater">
+            {% if section.settings.title != blank %}
+                <div class="product-recommendations__title color_text">{{ section.settings.title }}</div>
+            {% endif %}
+            {% if section.settings.description != blank %}
+                <div class="product-recommendations__description color_text">{{ section.settings.description }}</div>
+            {% endif %}
+            <div class="product-recommendations__inner">
+                <div class="product-recommendations__items custom-slider"
+                     data-autoplay="{{ section.settings.autoplay }}"
+                     data-view="{{ section.settings.slider_per_view }}"
+                     data-between="6">
+                    <div class="swiper-wrapper">
+                        {% for product in section.blocks %}
+                            <div class="swiper-slide">
+                                <div class="product-recommendations__item">
+                                    <a href="{{ product.settings.product.url }}"></a>
+                                    <div class="product-recommendations__image-tags">
+                                        {% if product.settings.price_day != blank %}
+                                            <div class="product-recommendations__day color_text">{{ product.settings.price_day | replace: "[", "<span>" | replace: "]", "</span>" }}</div>
+                                        {% endif %}
+                                        <img src="{{ product.settings.product.featured_image | img_url: "285x" }}"
+                                        {% if product.settings.product.featured_image.alt != blank %}
+                                            alt="{{ product.settings.product.featured_image.alt }}"
+                                        {% else %}
+                                            alt="{{ product.settings.product.title }}"
+                                                {% endif %}>
+                                        {% if product.settings.tag_image_first != blank
+                                        or product.settings.tag_text_first != blank
+                                        or product.settings.tag_image_second != blank
+                                        or product.settings.tag_text_second != blank %}
+                                            <div class="product-recommendations__tags">
+                                                {% if product.settings.tag_text_first != blank %}
+                                                    <span class="product-recommendation__tag color_text">
+                                                      {% if product.settings.tag_image_first != blank %}
+                                                          <img src="{{ product.settings.tag_image_first | img_url: "17x" }}"
+                                                               alt="{{ product.settings.tag_text_first }}">
+                                                      {% endif %}
+                                                        {{ product.settings.tag_text_first }}
+                                                    </span>
+                                                {% endif %}
+                                                {% if product.settings.tag_image_second != blank or product.settings.tag_text_second != blank %}
+                                                    <span class="product-recommendation__tag color_text">
+                                                     {% if product.settings.tag_image_second != blank %}
+                                                         <img loading="lazy" src="{{ product.settings.tag_image_second | img_url: "17x" }}"
+                                                              alt="{{ product.settings.tag_text_second }}">
+                                                     {% endif %}
+                                                        {{ product.settings.tag_text_second }}
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="product-recommendations__info">
+                                        <div class="product-recommendations__info-title color_text">{{ product.settings.product.title }}</div>
+                                        <div class="product-recommendations__info-price color_text">
+                                            {{ product.settings.product.price | money }}
+                                            {% if product.settings.product.compare_price != blank %}
+                                                <u>{{ product.settings.product.compare_price }}</u>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="product-recommendation__pagination">
+                        <div class="custom-slider__pagination"></div>
+                    </div>
+                </div>
+            </div>
+            {% if section.settings.btn_url != blank %}
+                <div class="product-recommendations__button">
+                    <a href="{{ section.settings.btn_url }}">
+                        {{ section.settings.btn_name }}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Recommended products",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Color text",
+      "default": "#363636"
+    },
+    {
+      "type": "header",
+      "content": "Hover background product"
+    },
+    {
+      "type": "color",
+      "id": "background_product",
+      "label": "Background",
+      "default": "#FFF9C0"
+    },
+    {
+      "type": "header",
+      "content": "Section padding (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 132
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Section padding (mobile)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Have you had your daily dose of vit today?"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Whether you need a daily pick-me up or a little sleep support, our products are developed with the end goal in mind. Optimally-dosed, highly bioavailable formulas means you can see and feel results that set you on a path to better health."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "color",
+      "id": "btn_background",
+      "label": "Button background color",
+      "default": "#00AFA9"
+    },
+    {
+      "type": "color",
+      "id": "btn_color",
+      "label": "Button text color ",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "btn_background_hover",
+      "label": "Button background hover",
+      "default": "#00AFA9"
+    },
+    {
+      "type": "color",
+      "id": "btn_color_hover",
+      "label": "Button background color",
+      "default": "#00AFA9"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "btn_name",
+      "label": "Button name",
+      "default": "See All Products?"
+    },
+    {
+      "type": "header",
+      "content": "Slider settings"
+    },
+    {
+      "type": "range",
+      "id": "slider_per_view",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "label": "Max slider per view (desktop)",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "autoplay",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay",
+      "default": 0,
+      "info": "If the default is 0, autoplay is disabled"
+    },
+    {
+      "type": "header",
+      "content": "Dots"
+    },
+    {
+      "type": "color",
+      "id": "dots_background_active",
+      "label": "Background color active dot",
+      "default": "#00AFA9"
+    },
+    {
+      "type": "color",
+      "id": "dots_border",
+      "label": "Dots border",
+      "default": "#363636"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Product",
+      "type": "product",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Product"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "header",
+          "content": "First tag "
+        },
+        {
+          "type": "image_picker",
+          "id": "tag_image_first",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "tag_text_first",
+          "label": "Text"
+        },
+        {
+          "type": "header",
+          "content": "Second tag"
+        },
+        {
+          "type": "image_picker",
+          "id": "tag_image_second",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "tag_text_second",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "price_day",
+          "label": "Day price",
+          "default": "$0.33/day",
+          "info": "Use '[' for to open tag '<span>' and ']' to close tag '</span>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recommended products"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,384 @@
+{{ 'custom-reviews.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+    .color_text_review{
+    color: {{ section.settings.color_text_review }};
+    }
+
+    .custom-review__item{
+    background-color: {{ section.settings.background_review }}
+    }
+
+    .product-recommendation__pagination .swiper-pagination-bullet {
+    background-color: transparent;
+    border: 1px solid {{ section.settings.dots_border }};
+    }
+
+    .product-recommendation__pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    background-color: {{ section.settings.dots_background_active }};
+    border: 1px solid{{ section.settings.dots_background_active }};
+    }
+
+    .product-recommendations__button a {
+    background: {{ section.settings.btn_background }};
+    color: {{ section.settings.btn_color }};
+    transition: all 0.3s ease-in-out;
+    }
+
+    .custom-review____product a,
+    .custom-review____product a span{
+    background: {{ section.settings.btn_background }};
+    color: {{ section.settings.btn_color }};
+    transition: all 0.3s ease-in-out;
+    }
+
+    .custom-review____product a:hover,
+    .custom-review____product a:hover span{
+    background: {{ section.settings.btn_background_hover }};
+    color: {{ section.settings.btn_color_hover }};
+    }
+
+    .custom-review____product a:hover svg path{
+    fill: {{ section.settings.btn_background }};
+    }
+
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+
+    @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    }
+{%- endstyle -%}
+
+{% if section.blocks.size != 0 %}
+    <div class="custom-reviews section-{{ section.id }}-padding">
+        <div class="container__repeater">
+            {% if section.settings.title != blank %}
+                <div class="custom-reviews__title color_text_review">{{ section.settings.title }}</div>
+            {% endif %}
+            <div class="custom-reviews__inner">
+                <div class="custom-reviews__items custom-slider"
+                     data-autoplay="{{ section.settings.autoplay }}"
+                     data-view="{{ section.settings.slider_per_view }}"
+                     data-between="59"
+                     data-arrows="{{ section.settings.show_arrows }}">
+                    <div class="swiper-wrapper">
+                        {% for review in section.blocks %}
+                            <div class="swiper-slide">
+                                <div class="custom-review__item">
+                                    <div class="custom-review__info">
+                                        <div class="custom-review__content">
+                                            <img loading="lazy" src="{{ review.settings.image | img_url: "170x" }}"
+                                            {% if review.settings.image.alt != blank %}
+                                                alt="{{ review.settings.image.alt }}"
+                                            {% else %}
+                                                alt="{{ review.settings.name }}"
+                                                    {% endif %}>
+                                            <div class="custom-review__rating">
+                                                {% for i in (1..5) %}
+                                                    {% comment %}{% if i == review.settings.rating %}{% endif %}{% endcomment %}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24"
+                                                         viewBox="0 0 26 24" fill="none">
+                                                        <path d="M12.0489 0.927052C12.3483 0.00574112 13.6517 0.00573993 13.9511 0.927051L16.1432 7.67376C16.2771 8.08578 16.661 8.36475 17.0943 8.36475H24.1882C25.1569 8.36475 25.5597 9.60436 24.7759 10.1738L19.0369 14.3435C18.6864 14.5981 18.5397 15.0495 18.6736 15.4615L20.8657 22.2082C21.1651 23.1295 20.1106 23.8956 19.3269 23.3262L13.5878 19.1565C13.2373 18.9019 12.7627 18.9019 12.4122 19.1565L6.67312 23.3262C5.88941 23.8956 4.83493 23.1295 5.13428 22.2082L7.32642 15.4615C7.46029 15.0495 7.31363 14.5981 6.96315 14.3435L1.22405 10.1738C0.440337 9.60436 0.843112 8.36475 1.81184 8.36475H8.90575C9.33897 8.36475 9.72293 8.08578 9.8568 7.67376L12.0489 0.927052Z"
+                                                        {% if i <= review.settings.rating %}
+                                                            fill="{{ section.settings.rating_up }}"
+                                                        {% else %}
+                                                            fill="{{ section.settings.rating_down }}"
+                                                                {% endif %}/>
+                                                    </svg>
+                                                {% endfor %}
+                                            </div>
+                                            {% if review.settings.title != blank %}
+                                                <div class="custom-review__title color_text_review">{{ review.settings.title }}</div>
+                                            {% endif %}
+                                            {% if review.settings.description != blank %}
+                                                <div class="custom-review__description color_text_review">{{ review.settings.description }}</div>
+                                            {% endif %}
+                                        </div>
+                                        {% if review.settings.name != blank %}
+                                            <div class="custom-review__name color_text_review">{{ review.settings.name }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="custom-review____product">
+                                        <a href="{{ review.settings.product.url }}">
+                                            <span class="custom-review__product-info color_text_review">
+                                                <img loading="lazy"
+                                                     src="{{ review.settings.product.featured_image | img_url: "150x" }}"
+                                                     alt="{{ review.settings.product.title }}">
+                                                {{ review.settings.product.title }}
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="16"
+                                                 viewBox="0 0 23 16" fill="none">
+                                                <path d="M22.7071 8.70711C23.0976 8.31658 23.0976 7.68342 22.7071 7.29289L16.3431 0.928932C15.9526 0.538408 15.3195 0.538408 14.9289 0.928932C14.5384 1.31946 14.5384 1.95262 14.9289 2.34315L20.5858 8L14.9289 13.6569C14.5384 14.0474 14.5384 14.6805 14.9289 15.0711C15.3195 15.4616 15.9526 15.4616 16.3431 15.0711L22.7071 8.70711ZM0 9H22V7H0V9Z"
+                                                      fill="white"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="reviews__arrows">
+                        {% if section.settings.show_arrows %}
+                            <div class="custom-button-prev">{% render 'arrow-slider-left', background: section.settings.arrow_color_background, arrow: section.settings.arrow_color %}</div>
+                            <div class="custom-button-next">{% render 'arrow-slider-right', background: section.settings.arrow_color_background, arrow: section.settings.arrow_color %}</div>
+                        {% endif %}
+                    </div>
+                    <div class="reviews__pagination">
+                        <div class="custom-slider__pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Custom reviews",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "color_text_review",
+      "label": "Color text",
+      "default": "#363636"
+    },
+    {
+      "type": "header",
+      "content": "Background color review"
+    },
+    {
+      "type": "color",
+      "id": "background_review",
+      "label": "Background",
+      "default": "#DFFFFD"
+    },
+    {
+      "type": "header",
+      "content": "Section padding (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 132
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Section padding (mobile)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Why People Love Us"
+    },
+    {
+      "type": "header",
+      "content": "Rating colors"
+    },
+    {
+      "type": "color",
+      "id": "rating_up",
+      "label": "Review background up",
+      "default": "#00AFA9"
+    },
+    {
+      "type": "color",
+      "id": "rating_down",
+      "label": "Review background down",
+      "default": "#fff9c0"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "color",
+      "id": "btn_background",
+      "label": "Button background color",
+      "default": "#fff9c0"
+    },
+    {
+      "type": "color",
+      "id": "btn_color",
+      "label": "Button text color ",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "btn_background_hover",
+      "label": "Button background hover",
+      "default": "#00AFA9"
+    },
+    {
+      "type": "color",
+      "id": "btn_color_hover",
+      "label": "Button background color",
+      "default": "#00AFA9"
+    },
+    {
+      "type": "header",
+      "content": "Slider settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slider_per_view",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "label": "Max slider per view (desktop)",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "autoplay",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay",
+      "default": 0,
+      "info": "If the default is 0, autoplay is disabled"
+    },
+    {
+      "type": "header",
+      "content": "Arrow colors"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color_background",
+      "label": "Background color arrow",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#00AFA9"
+    },
+    {
+      "type": "header",
+      "content": "Dots"
+    },
+    {
+      "type": "color",
+      "id": "dots_background_active",
+      "label": "Background color active dot",
+      "default": "#00AFA9"
+    },
+    {
+      "type": "color",
+      "id": "dots_border",
+      "label": "Dots border",
+      "default": "#363636"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Review",
+      "type": "review",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Reviews info"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Rating star",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name"
+        },
+        {
+          "type": "header",
+          "content": "Product"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom reviews"
+    }
+  ]
+}
+{% endschema %}

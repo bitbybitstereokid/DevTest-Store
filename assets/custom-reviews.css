@@ -1,0 +1,214 @@
+.custom-reviews {
+    overflow: hidden;
+}
+
+.container__repeater {
+    max-width: 1360px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 50px;
+}
+
+.custom-reviews__title {
+    text-align: center;
+    font-family: 'F37GingerRegular', sans-serif;
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 124%;
+}
+
+.custom-reviews__inner {
+    margin-top: 130px;
+}
+
+.custom-review__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.custom-reviews__inner .swiper-slide {
+    height: auto;
+}
+
+.custom-reviews__items {
+    position: relative;
+}
+
+.custom-review__item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 15px;
+}
+
+/*content*/
+
+.custom-review__content img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    top: -75px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.custom-review__info {
+    padding: 95px 20px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.custom-review__title {
+    text-align: center;
+    font-family: 'F37GingerRegular', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%;
+    margin-top: 25px;
+}
+
+.custom-review__description {
+    text-align: center;
+    font-family: 'F37GingerRegular', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 158%;
+    margin-top: 15px;
+}
+
+.custom-review__name {
+    text-align: center;
+    font-family: 'F37GingerRegular', sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%;
+    margin-top: 50px;
+}
+
+/*product*/
+.custom-review____product a {
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-radius: 0 0 15px 15px;
+}
+
+.custom-review____product a,
+.custom-review____product a span {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+    font-family: 'F37GingerRegular', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.custom-review__product-info img {
+    max-width: 92px;
+}
+
+/*dots*/
+.product-recommendation__pagination {
+    margin-top: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reviews__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.reviews__pagination .custom-slider__pagination {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px;
+}
+
+.reviews__pagination .custom-slider__pagination .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    margin: 0 !important;
+    opacity: 1 !important;
+}
+
+.reviews__arrows {
+    position: absolute;
+    left: -15px;
+    top: calc(50% - 15px);
+    transform: translateY(-50%);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    width: calc(100% + 30px);
+    justify-content: space-between;
+    height: 30px;
+}
+
+.reviews__arrows > div {
+    cursor: pointer;
+    height: 30px;
+}
+
+.reviews__arrows > div > svg {
+    width: 30px;
+    height: 30px;
+}
+
+@media screen and (max-width: 768px) {
+    .product-recommendations__button {
+        margin-top: 40px;
+    }
+
+    .container__repeater {
+        padding: 0 20px;
+    }
+
+    .custom-reviews__title {
+        font-size: 30px;
+        line-height: 124%;
+        margin-top: 15px;
+    }
+
+    .custom-review__content img {
+        width: 100px;
+        height: 100px;
+        top: -50px;
+    }
+
+    .custom-review__info {
+        padding: 70px 20px 20px;
+    }
+
+    .custom-review____product a {
+        padding: 15px;
+    }
+
+    .custom-review____product a span {
+        max-width: 221px;
+    }
+
+    .custom-reviews__inner {
+        margin-top: 80px;
+    }
+}
