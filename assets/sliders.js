@@ -4,8 +4,6 @@ const initializeSlider = (sliderElement) => {
     const sliderView = +sliderElement.dataset.view;
     const sliderBetween = +sliderElement.dataset.between;
     const sliderArrows = sliderElement.dataset.arrows;
-    console.log(sliderElement)
-    console.log(pagination)
 
     const sliderObj = {
         breakpoints: {
